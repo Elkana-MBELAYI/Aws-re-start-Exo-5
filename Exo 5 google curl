@@ -1,0 +1,42 @@
+Écrire le script (google.sh, par exemple) :
+=> vi google.sh
+1......................................
+#!/bin/bash
+
+# Exécuter la requête curl vers google.com
+response=$(curl -s -o /dev/null -w "%{http_code}" https://www.google.com)
+
+# Journaliser la réponse et la date
+echo "$(date): Google response code: $response" >> /path/to/execution.log
+
+2..........................
+Rendre le script exécutable :
+chmod +x google.sh
+
+3................................
+
+Configurer une tâche cron pour exécuter le script périodiquement. Ouvrez le fichier crontab pour l'édition :
+crontab -e
+
+4............................
+Ajouter une entrée crontab pour exécuter le script toutes les minutes (ou à un intervalle de votre choix) :
+* * * * * google.sh
+Cela exécutera le script toutes les minutes. Vous pouvez ajuster cette ligne pour changer la fréquence.
+
+
+5..................................
+Vérifier les logs en temps réel avec tail -f :
+tail -f /path/to/execution.log
+
+Le resultat ressemblera à ça
+=>
+[ec2-user@ip-172-31-21-237 ~]$ tail -f execution.log
+Tue Jul  2 02:22:01 UTC 2024: Google response code: 200
+Tue Jul  2 02:23:01 UTC 2024: Google response code: 200
+Tue Jul  2 02:24:01 UTC 2024: Google response code: 200
+Tue Jul  2 02:25:01 UTC 2024: Google response code: 200
+Tue Jul  2 02:26:02 UTC 2024: Google response code: 200
+Tue Jul  2 02:27:01 UTC 2024: Google response code: 200
+Tue Jul  2 02:28:01 UTC 2024: Google response code: 200
+
+Elkach, Merci.
